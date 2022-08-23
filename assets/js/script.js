@@ -83,3 +83,140 @@ var questionsArray = [
     correctAnswer: "4",
   },
 ];
+
+var timer = document.getElementById("timer");
+var timeLeft = document.getElementById("time");
+
+var secondsLeft = 60;
+var questionNum = 0;
+var totalScore = 0;
+var questionCounter = 1;
+
+const countdown = () => {
+  var timerInterval = setInterval(function () {
+    secondsLeft--;
+    timeLeft.textContent = "Time left: " + secondsLeft + "seconds";
+
+    if (secondsLeft <= 0) {
+      clearInterval(timerInterval);
+      timeLeft.textContent = "Time is up!";
+      timesUp.textContent = "Time is up!";
+      timeUp();
+    } else if (questionCounter >= questionsArray.length + 1) {
+      clearInterval(timerInterval);
+      timeUp();
+    }
+  }, 1000);
+};
+
+const startQuiz = () => {
+  introduction.style.display = "none";
+  questionPage.style.display = "block";
+  timer.style.display = "block";
+
+  questionNum = 0;
+  countdown();
+  viewQuestion(questionNum);
+};
+const viewQuestion = (n) => {
+  highScoreBtn.style.display = "block";
+  Questions.textContent = questionsArray[n].question;
+  answer1.textContent = questionsArray[n].choice[0];
+  answer2.textContent = questionsArray[n].choice[1];
+  answer3.textContent = questionsArray[n].choice[2];
+  answer4.textContent = questionsArray[n].choice[3];
+  questionNum = n;
+};
+
+const checkAnswer = (event) => {
+  event.preventDefault();
+
+  checkLine.style.display = "block";
+  setTimeout(function () {
+    checkLine.style.display = "none";
+  }, 1000);
+
+  if (questionsArray[questionNum].correctAnswer == event.target.value) {
+    checkLine.textContent = "Correct!";
+    totalScore = totalScore + 1;
+  } else {
+    secondsLeft = secondsLeft - 10;
+    checkLine.textContent =
+      "Wrong! The correct answer is " +
+      questionsArray[questionNum].correctAnswer +
+      " .";
+  }
+
+  if (questionNum < questionsArray.length - 1) {
+    viewQuestion(questionNum + 1);
+  } else {
+    timeUp();
+  }
+  questionCounter++;
+};
+
+const timeUp = () => {
+  questionPage.style.display = "none";
+  submitPage.style.display = "block";
+  highScoreBtn.style.display = "none";
+  console.log(submitPage);
+
+  Score.textContent = "Your final score is :" + totalScore;
+  timeLeft.style.display = "none";
+};
+
+const scoreNum = () => {
+  var currentList = localStorage.getItem("ScoreList");
+  highScoreBtn.style.display = "none";
+
+  if (currentList !== null) {
+    freshList = JSON.parse(currentList);
+    return freshList;
+  } else {
+    freshList = [];
+  }
+  return freshList;
+};
+
+const viewScore = () => {
+  ScoresRecord.innerHTML = "";
+  ScoresRecord.style.display = "block";
+  var highScores = sort();
+
+  var topFive = highScores.slice(0, 5);
+  for (var i = 0; i < topFive.length; i++) {
+    var item = topFive[i];
+
+    var li = document.createElement("li");
+    li.textContent = item.user + " - " + item.score;
+    li.setAttribute("data-index", i);
+    ScoresRecord.appendChild(li);
+  }
+};
+
+const sort = () => {
+  var unsortedList = scoreNum();
+  if (scoreNum == null) {
+    return;
+  } else {
+    unsortedList.sort(function (a, b) {
+      return b.score - a.score;
+    });
+    return unsortedList;
+  }
+};
+
+const addScore = (n) => {
+  var addedList = scoreNum();
+  addedList.push(n);
+  localStorage.setItem("ScoreList", JSON.stringify(addedList));
+};
+
+const saveScore = () => {
+  var scoreItem = {
+    user: Initials.value,
+    score: totalScore,
+  };
+  addScore(scoreItem);
+  viewScore();
+};
