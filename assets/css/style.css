@@ -1,0 +1,166 @@
+html {
+  font-family: "Itim", cursive;
+  background-image: linear-gradient(white, lightgrey);
+  font-size: 25px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:root {
+  --alice-blue: #edf2fbff;
+  --lavender-web: #e2eafcff;
+  --periwinkle-crayola: #d7e3fcff;
+  --periwinkle-crayola-2: #ccdbfdff;
+  --periwinkle-crayola-3: #c1d3feff;
+  --light-steel-blue: #b6ccfeff;
+  --baby-blue-eyes: #abc4ffff;
+  --eerie-black: #161a1dff;
+  --onyx: #343a40ff;
+}
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  padding: 10px;
+  padding-top: 20px;
+  height: 500px;
+
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  /* display: none; */
+}
+
+.flex-container1 {
+  width: 500px;
+  height: 500px;
+  border: 10px;
+  margin: 10px;
+  text-align: center;
+}
+.flex-container2 {
+  width: 500px;
+  height: 500px;
+  border: 10px;
+  margin: 10px;
+}
+img {
+  width: 500px;
+  height: 500px;
+}
+.start-button {
+  font-size: 25px;
+  padding: 14px 40px;
+  border: solid black;
+  border-radius: 50%;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.start-button:hover {
+  background-color: black;
+  color: white;
+  opacity: 1;
+}
+.questions-box {
+  display: none;
+}
+
+.answers-box {
+  border: 7px double black;
+  width: 700px;
+  height: 400px;
+}
+
+.timer {
+  text-align: center;
+  display: none;
+}
+.answer {
+  display: flex;
+  font-size: 25px;
+  height: 75px;
+  width: 650px;
+  align-items: center;
+  border: 5px solid;
+  background-color: lightgray;
+  color: black;
+  margin: 20px;
+  border-radius: 20px;
+  text-align: left;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.answer:hover {
+  background-color: var(--eerie-black);
+  color: white;
+}
+.highscore-button {
+  font-size: 15px;
+  height: 50px;
+  width: 150px;
+  color: white;
+  background-color: black;
+  border-radius: 10px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  display: none;
+}
+.highscore-button:hover {
+  background-color: white;
+  color: black;
+}
+.submit-page {
+  text-align: center;
+  border: 4px solid black;
+  height: 300px;
+  width: 600px;
+  margin-top: 10px;
+  display: none;
+}
+.submit {
+  border-radius: 10px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  font-family: "itim", cursive;
+  font-size: 20px;
+}
+.submit:hover {
+  background-color: black;
+  color: white;
+}
+.highscore {
+  text-align: center;
+  display: none;
+}
+.input {
+  height: 25px;
+  font-family: "itim" cursive;
+}
+.button {
+  border-radius: 3px;
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.button:hover {
+  background-color: black;
+  color: white;
+}
+
+@media screen and (max-width: 992px) {
+  html {
+    background-image: linear-gradient(turquoise, white);
+  }
+}
+@media screen and (max-width: 768px) {
+  html {
+    background-image: linear-gradient(lightblue, white);
+  }
+}
