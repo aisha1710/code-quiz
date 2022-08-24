@@ -6,7 +6,7 @@ var answer1 = document.getElementById("btn0");
 var answer2 = document.getElementById("btn1");
 var answer3 = document.getElementById("btn2");
 var answer4 = document.getElementById("btn3");
-var checkLine = document.getElementById("check_line");
+var result = document.getElementById("result");
 var submitPage = document.getElementById("submit_page");
 var Score = document.getElementById("final-score");
 var Initials = document.getElementById("initial");
@@ -90,17 +90,17 @@ var timeLeft = document.getElementById("time");
 var secondsLeft = 60;
 var questionNum = 0;
 var totalScore = 0;
-var questionCounter = 1;
+var questionCounter = 0;
 
 const countdown = () => {
   var timerInterval = setInterval(function () {
     secondsLeft--;
-    timeLeft.textContent = "Time left: " + secondsLeft + "seconds";
+    timeLeft.textContent = secondsLeft + ": seconds remaining";
 
     if (secondsLeft <= 0) {
       clearInterval(timerInterval);
-      timeLeft.textContent = "Time is up!";
-      timesUp.textContent = "Time is up!";
+
+      timesUp.textContent = "Game over!";
       timeUp();
     } else if (questionCounter >= questionsArray.length + 1) {
       clearInterval(timerInterval);
@@ -131,18 +131,18 @@ const viewQuestion = (n) => {
 const checkAnswer = (event) => {
   event.preventDefault();
 
-  checkLine.style.display = "block";
+  result.style.display = "block";
   setTimeout(function () {
-    checkLine.style.display = "none";
+    result.style.display = "none";
   }, 1000);
 
   if (questionsArray[questionNum].correctAnswer == event.target.value) {
-    checkLine.textContent = "Correct!";
+    result.textContent = "Correct!";
     totalScore = totalScore + 1;
   } else {
     secondsLeft = secondsLeft - 10;
-    checkLine.textContent =
-      "Wrong! The correct answer is " +
+    result.textContent =
+      "Incorrect! The correct answer is " +
       questionsArray[questionNum].correctAnswer +
       " .";
   }
@@ -170,12 +170,12 @@ const scoreNum = () => {
   highScoreBtn.style.display = "none";
 
   if (currentList !== null) {
-    freshList = JSON.parse(currentList);
-    return freshList;
+    newList = JSON.parse(currentList);
+    return newList;
   } else {
-    freshList = [];
+    newList = [];
   }
-  return freshList;
+  return newList;
 };
 
 const viewScore = () => {
@@ -188,7 +188,7 @@ const viewScore = () => {
     var item = topFive[i];
 
     var li = document.createElement("li");
-    li.textContent = item.user + " - " + item.score;
+    li.textContent = item.player + " - " + item.score;
     li.setAttribute("data-index", i);
     ScoresRecord.appendChild(li);
   }
@@ -214,9 +214,55 @@ const addScore = (n) => {
 
 const saveScore = () => {
   var scoreItem = {
-    user: Initials.value,
+    player: Initials.value,
     score: totalScore,
   };
   addScore(scoreItem);
   viewScore();
 };
+startButton.addEventListener("click", startQuiz);
+
+answerButtons.forEach(function (click) {
+  click.addEventListener("click", checkAnswer);
+});
+
+var submitButton = document.getElementById("submit-btn");
+var highScorePage = document.getElementById("highscore-page");
+
+submitButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  submitPage.style.display = "none";
+  introduction.style.display = "none";
+  highScorePage.style.display = "block";
+  questionPage.style.display = "none";
+
+  saveScore();
+});
+
+highScoreBtn.addEventListener("click", function (event) {
+  event.preventDefault();
+  submitPage.style.display = "none";
+  introduction.style.display = "none";
+  timer.style.display = "none";
+  highScorePage.style.display = "block";
+  questionPage.style.display = "none";
+  viewScore();
+});
+
+var backButton = document.getElementById("back_btn");
+var clearButton = document.getElementById("clear_btn");
+
+clearButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  localStorage.clear();
+  viewScore();
+});
+
+backButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  submitPage.style.display = "none";
+  introduction.style.display = "block";
+  highScorePage.style.display = "none";
+  questionPage.style.display = "none";
+  location.reload();
+});
